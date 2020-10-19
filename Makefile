@@ -42,12 +42,16 @@ protoc:
 	@GOPRIVATE=github.com/nspcc-dev go mod vendor
 	# Install specific version for protobuf lib
 	@go list -f '{{.Path}}/...@{{.Version}}' -m  github.com/golang/protobuf | xargs go get -v
+	@go list -f '{{.Path}}/...@{{.Version}}' -m  google.golang.org/grpc/cmd/protoc-gen-go-grpc | xargs go get -v
 	# Protoc generate
+	# for grpc_opt see https://github.com/grpc/grpc-go/blob/master/cmd/protoc-gen-go-grpc/README.md
 	@for f in `find . -type f -name '*.proto' -not -path './vendor/*'`; do \
 		echo "⇒ Processing $$f "; \
 		protoc \
 			--proto_path=.:./vendor:./vendor/github.com/nspcc-dev/neofs-api:/usr/local/include \
-			--go_out=plugins=grpc,paths=source_relative:. $$f; \
+			--go_out=. --go_opt=paths=source_relative \
+			--go-grpc_opt=require_unimplemented_servers=false \
+			--go-grpc_out=. --go-grpc_opt=paths=source_relative $$f; \
 	done
 	rm -rf vendor
 
