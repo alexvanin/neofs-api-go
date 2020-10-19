@@ -3,8 +3,8 @@ module github.com/nspcc-dev/neofs-api-go
 go 1.14
 
 require (
-	github.com/gogo/protobuf v1.1.1
-	github.com/golang/protobuf v1.4.2
+	github.com/gogo/protobuf v1.1.1 // indirect
+	github.com/golang/protobuf v1.4.3
 	github.com/google/uuid v1.1.1
 	github.com/mr-tron/base58 v1.1.2
 	github.com/nspcc-dev/hrw v1.0.9
@@ -16,6 +16,7 @@ require (
 	golang.org/x/text v0.3.2 // indirect
 	google.golang.org/genproto v0.0.0-20191108220845-16a3f7862a1a // indirect
 	google.golang.org/grpc v1.29.1
+	google.golang.org/protobuf v1.23.0
 )
 
 // Used for debug reasons

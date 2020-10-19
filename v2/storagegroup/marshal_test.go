@@ -3,6 +3,7 @@ package storagegroup_test
 import (
 	"testing"
 
+	goproto "github.com/golang/protobuf/proto"
 	"github.com/nspcc-dev/neofs-api-go/v2/refs"
 	"github.com/nspcc-dev/neofs-api-go/v2/storagegroup"
 	grpc "github.com/nspcc-dev/neofs-api-go/v2/storagegroup/grpc"
@@ -28,7 +29,7 @@ func TestStorageGroup_StableMarshal(t *testing.T) {
 		wire, err := storageGroupFrom.StableMarshal(nil)
 		require.NoError(t, err)
 
-		err = transport.Unmarshal(wire)
+		err = goproto.Unmarshal(wire, transport)
 		require.NoError(t, err)
 
 		storageGroupTo := storagegroup.StorageGroupFromGRPCMessage(transport)

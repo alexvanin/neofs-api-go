@@ -4,6 +4,7 @@ import (
 	"math"
 	"testing"
 
+	goproto "github.com/golang/protobuf/proto"
 	"github.com/nspcc-dev/neofs-api-go/util/proto"
 	"github.com/nspcc-dev/neofs-api-go/util/proto/test"
 	"github.com/pkg/errors"
@@ -437,7 +438,7 @@ func testMarshal(t *testing.T, c stablePrimitives, tr test.Primitives, wrongFiel
 	wire, err = c.stableMarshal(nil, wrongField)
 	require.NoError(t, err)
 
-	wireGen, err := tr.Marshal()
+	wireGen, err := goproto.Marshal(&tr)
 	require.NoError(t, err)
 
 	if !wrongField {
@@ -448,7 +449,7 @@ func testMarshal(t *testing.T, c stablePrimitives, tr test.Primitives, wrongFiel
 	}
 
 	result := new(test.Primitives)
-	err = result.Unmarshal(wire)
+	err = goproto.Unmarshal(wire, result)
 	require.NoError(t, err)
 
 	return result
@@ -588,7 +589,7 @@ func testRepMarshal(t *testing.T, c stableRepPrimitives, tr test.RepPrimitives, 
 	wire, err = c.stableMarshal(nil, wrongField)
 	require.NoError(t, err)
 
-	wireGen, err := tr.Marshal()
+	wireGen, err := goproto.Marshal(&tr)
 	require.NoError(t, err)
 
 	if !wrongField {
@@ -599,7 +600,7 @@ func testRepMarshal(t *testing.T, c stableRepPrimitives, tr test.RepPrimitives, 
 	}
 
 	result := new(test.RepPrimitives)
-	err = result.Unmarshal(wire)
+	err = goproto.Unmarshal(wire, result)
 	require.NoError(t, err)
 
 	return result
