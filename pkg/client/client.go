@@ -52,3 +52,12 @@ func New(key *ecdsa.PrivateKey, opts ...Option) (*Client, error) {
 		opts: clientOptions,
 	}, nil
 }
+
+func (c *Client) Connection() (TransportProtocol, interface{}) {
+	switch c.remoteNode.Protocol {
+	case GRPC:
+		return GRPC, c.opts.grpcOpts.conn
+	default:
+		return Unknown, nil
+	}
+}
